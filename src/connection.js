@@ -1,5 +1,6 @@
 import React from "react";
 import Autobahn from "autobahn";
+import Table from "./table";
 
 class Journal extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Journal extends React.Component {
     this.connection.onopen = this.onOpenConnection;
     this.state = {
       journals: [],
+      media: [],
     };
   }
   componentDidMount = () => {
@@ -25,15 +27,28 @@ class Journal extends React.Component {
       this.setState({ journals: res.reverse() });
     }, session.log);
 
+    session.call("com.filmdatabox.democontrol.state").then((res) => {
+      console.log("demo", res);
+      this.setState({ media: res.media.reverse() });
+    }, session.log);
+
     session.subscribe("com.filmdatabox.democontrol.journal", (args) => {
       this.setState({ journals: [...args.reverse(), ...this.state.journals] });
+    });
+
+    session.subscribe("com.filmdatabox.democontrol.state", (args) => {
+      this.setState({
+        media: [...args.media.reverse(), ...this.state.media],
+      });
     });
   };
 
   render() {
-    const { journals } = this.state;
+    const { journals, media } = this.state;
+
     return (
       <div>
+        <Table media={media} />
         <h1>Messages</h1>
         {journals.map((journal, i) => {
           return <div key={i}>{journal}</div>;
