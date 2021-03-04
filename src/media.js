@@ -22,7 +22,7 @@ function Media({ media,onUpdate}) {
               <td>{state.name}</td>
               <td>{state.description}</td>
               <td>
-                <button onClick={()=>onUpdate(state.name,false)}>Update</button>
+                <button onClick={()=>onUpdate(state.name,true)}>Update</button>
               </td>
             </tr>
           );
