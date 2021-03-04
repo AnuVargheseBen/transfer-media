@@ -1,6 +1,6 @@
 import React from "react";
 import Autobahn from "autobahn";
-import Table from "./table";
+import Media from "./media";
 
 class Journal extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class Journal extends React.Component {
 
     return (
       <div>
-        <Table media={media} />
+        <Media media={media} />
         <h1>Messages</h1>
         {journals.map((journal, i) => {
           return <div key={i}>{journal}</div>;

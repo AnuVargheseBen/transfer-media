@@ -1,15 +1,15 @@
 import React from "react";
+import "./media.css";
 
-function Table({ media }) {
+function Media({ media }) {
   return (
-    <table>
+    <table className="styled-table">
       <thead>
         <tr>
           <th>Label</th>
           <th>is_attached</th>
           <th>name</th>
           <th>description</th>
-
         </tr>
       </thead>
       <tbody>
@@ -20,14 +20,15 @@ function Table({ media }) {
               <td>{state.is_attached}</td>
               <td>{state.name}</td>
               <td>{state.description}</td>
+              <td>
+                <button>Trigger</button>
+              </td>
             </tr>
           );
         })}
-
- 
       </tbody>
     </table>
   );
 }
 
-export default Table;
+export default Media;
