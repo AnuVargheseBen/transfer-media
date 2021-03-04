@@ -22,8 +22,12 @@ class Journal extends React.Component {
 
   onOpenConnection = (session, details) => {
     session.call("com.filmdatabox.democontrol.journal").then((res) => {
-      this.setState({ journals: res });
+      this.setState({ journals: res.reverse() });
     }, session.log);
+
+    session.subscribe("com.filmdatabox.democontrol.journal", (args) => {
+      this.setState({ journals: [...args.reverse(), ...this.state.journals] });
+    });
   };
 
   render() {
