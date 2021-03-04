@@ -1,7 +1,7 @@
 import React from "react";
 import Autobahn from "autobahn";
 
-class Connection extends React.Component {
+class Journal extends React.Component {
   constructor(props) {
     super(props);
     this.connection = new Autobahn.Connection({
@@ -21,30 +21,22 @@ class Connection extends React.Component {
   };
 
   onOpenConnection = (session, details) => {
-    session
-      .call("com.filmdatabox.democontrol.journal")
-      .then((res)=> {
-        this.setState({journals:res})
-      }, session.log);
+    session.call("com.filmdatabox.democontrol.journal").then((res) => {
+      this.setState({ journals: res });
+    }, session.log);
   };
 
   render() {
-    const {journals} = this.state;
+    const { journals } = this.state;
     return (
       <div>
-          <h1>Messages</h1>
-        {journals.map((journal,i)=>{
-          return(
-            <div key={i}>
-              
-                {journal}
-            </div>
-          )
+        <h1>Messages</h1>
+        {journals.map((journal, i) => {
+          return <div key={i}>{journal}</div>;
         })}
-      
       </div>
     );
   }
 }
 
-export default Connection;
+export default Journal;

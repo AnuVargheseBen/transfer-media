@@ -1,10 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import Connection from "./connection";
+import Journal from "./connection";
 function App() {
   return (
    <div>
-     <Connection/>
+     <Journal/>
    </div>
   );
 }
