@@ -10,7 +10,7 @@ class Connection extends React.Component {
     });
     this.connection.onopen = this.onOpenConnection;
     this.state = {
-      connection: {},
+      journals: [],
     };
   }
   componentDidMount = () => {
@@ -21,23 +21,27 @@ class Connection extends React.Component {
   };
 
   onOpenConnection = (session, details) => {
-    var add2 = function (args) {
-      console.log(args);
-      return args[0] + args[1];
-    };
-    session.register("com.filmdatabox.democontrol.journal", add2);
-
     session
       .call("com.filmdatabox.democontrol.journal")
-      .then(function showSum(res) {
-        console.log("sum is", res);
+      .then((res)=> {
+        this.setState({journals:res})
       }, session.log);
   };
 
   render() {
+    const {journals} = this.state;
     return (
       <div>
-        <h1>Hello World</h1>
+          <h1>Messages</h1>
+        {journals.map((journal,i)=>{
+          return(
+            <div key={i}>
+              
+                {journal}
+            </div>
+          )
+        })}
+      
       </div>
     );
   }
