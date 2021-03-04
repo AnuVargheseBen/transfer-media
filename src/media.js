@@ -1,7 +1,7 @@
 import React from "react";
 import "./media.css";
 
-function Media({ media,onUpdate}) {
+function Media({ media, onUpdate }) {
   return (
     <table className="styled-table">
       <thead>
@@ -15,6 +15,7 @@ function Media({ media,onUpdate}) {
       </thead>
       <tbody>
         {media.map((state, i) => {
+          console.log(state.is_attached);
           return (
             <tr key={i}>
               <td>{state.label}</td>
@@ -22,7 +23,9 @@ function Media({ media,onUpdate}) {
               <td>{state.name}</td>
               <td>{state.description}</td>
               <td>
-                <button onClick={()=>onUpdate(state.name,true)}>Update</button>
+                <button onClick={() => onUpdate(state.name, !state.is_attached)}>
+                  Toggle Attachment
+                </button>
               </td>
             </tr>
           );
