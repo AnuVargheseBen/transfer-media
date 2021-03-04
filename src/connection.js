@@ -31,7 +31,6 @@ class Journal extends React.Component {
     }, session.log);
 
     session.call("com.filmdatabox.democontrol.state").then((res) => {
-      console.log("demo", res);
       this.setState({ media: res.media });
     }, session.log);
 
@@ -41,13 +40,16 @@ class Journal extends React.Component {
 
     session.subscribe("com.filmdatabox.democontrol.state", (args) => {
       this.setState({
-        media: args[0].media
+        media: args[0].media,
       });
     });
   };
 
-  handleUpdateMedia = (name,attach) => {
-    this.session.call("com.filmdatabox.democontrol.change_medium",[name,attach]);
+  handleUpdateMedia = (name, attach) => {
+    this.session.call("com.filmdatabox.democontrol.change_medium", [
+      name,
+      attach,
+    ]);
   };
 
   render() {
