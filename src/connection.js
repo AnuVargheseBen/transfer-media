@@ -10,11 +10,13 @@ class Journal extends React.Component {
       realm: "democontrol",
     });
     this.connection.onopen = this.onOpenConnection;
+    this.session = null;
     this.state = {
       journals: [],
       media: [],
     };
   }
+
   componentDidMount = () => {
     this.connection.open();
   };
@@ -23,13 +25,14 @@ class Journal extends React.Component {
   };
 
   onOpenConnection = (session, details) => {
+    this.session = session;
     session.call("com.filmdatabox.democontrol.journal").then((res) => {
       this.setState({ journals: res.reverse() });
     }, session.log);
 
     session.call("com.filmdatabox.democontrol.state").then((res) => {
       console.log("demo", res);
-      this.setState({ media: res.media.reverse() });
+      this.setState({ media: res.media });
     }, session.log);
 
     session.subscribe("com.filmdatabox.democontrol.journal", (args) => {
@@ -38,9 +41,13 @@ class Journal extends React.Component {
 
     session.subscribe("com.filmdatabox.democontrol.state", (args) => {
       this.setState({
-        media: [...args.media.reverse(), ...this.state.media],
+        media: args[0].media
       });
     });
+  };
+
+  handleUpdateMedia = (name,attach) => {
+    this.session.call("com.filmdatabox.democontrol.change_medium",[name,attach]);
   };
 
   render() {
@@ -48,7 +55,7 @@ class Journal extends React.Component {
 
     return (
       <div>
-        <Media media={media} />
+        <Media media={media} onUpdate={this.handleUpdateMedia} />
         <h1>Messages</h1>
         {journals.map((journal, i) => {
           return <div key={i}>{journal}</div>;
